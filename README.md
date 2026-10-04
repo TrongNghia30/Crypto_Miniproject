@@ -1,6 +1,6 @@
 # Crypto Lab — Mật mã cổ điển
 
-**Website công khai:** https://crypto-lab-trongnghia30.phonglieuchinh2.chatgpt.site
+**Website công khai:** https://trongnghia30-crypto-miniproject.phonglieuchinh2.chatgpt.site
 
 Miniproject thực hành **mã hóa và giải mã 6 thuật toán**: Caesar, Monoalphabetic, Rail Fence, Vigenère, Playfair và One-Time Pad trên alphabet A–Z. Giao diện tiếng Việt dùng HTML/CSS/JavaScript thuần; Express và Node.js xử lý thuật toán qua API trên cùng origin. Không cần Python hoặc cơ sở dữ liệu.
 
