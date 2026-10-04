@@ -1,5 +1,7 @@
 # Crypto Lab — Mật mã cổ điển
 
+**Website công khai:** https://crypto-lab-trongnghia30.phonglieuchinh2.chatgpt.site
+
 Miniproject thực hành **mã hóa và giải mã 6 thuật toán**: Caesar, Monoalphabetic, Rail Fence, Vigenère, Playfair và One-Time Pad trên alphabet A–Z. Giao diện tiếng Việt dùng HTML/CSS/JavaScript thuần; Express và Node.js xử lý thuật toán qua API trên cùng origin. Không cần Python hoặc cơ sở dữ liệu.
 
 > Công cụ học tập. Mật mã cổ điển không phù hợp để bảo vệ dữ liệu thực tế. OTP trong ứng dụng là mô phỏng giáo dục với khóa sinh bằng bộ sinh ngẫu nhiên mật mã của máy tính; không cam kết tính ngẫu nhiên tuyệt đối.
@@ -50,7 +52,9 @@ public/
     normalize.js         Chuẩn hóa, ma trận, chuẩn bị cặp, vị trí rail
     validation.js        Kiểm tra dữ liệu dùng chung hai phía
 server/
-  app.js                 Express, REST API, static files và xử lý lỗi
+  app.js                 Phục vụ static files khi chạy Node.js local
+  api.js                 Express REST API và xử lý lỗi dùng chung
+  worker/index.js        Lớp chạy API Express và static assets trên hosting
   index.js               Khởi động server và đọc cấu hình
   ciphers.js             Logic biến đổi của sáu thuật toán
   keys.js                Tạo khóa bằng node:crypto
@@ -171,4 +175,16 @@ HTTP **400**: validation/JSON không hợp lệ; **413**: body vượt 256 KB; *
 
 Unit/integration test bao phủ vector hai chiều của cả 6 thuật toán, round-trip, tiếng Việt, khóa sai, giới hạn, Playfair chữ trùng/đệm/J, Rail Fence nhiều rail, sinh khóa, JSON hỏng và body quá lớn. E2E bao phủ luồng ví dụ và giải mã ngược, tải TXT, clipboard, chuẩn hóa, lỗi trường, sinh khóa, xóa kết quả cũ, response không JSON, lỗi mạng và sửa đầu vào khi request chưa hoàn tất ở ba kích thước màn hình.
 
-Repository lưu mã nguồn. **GitHub Pages không chạy backend Node.js**, nên không thể đưa toàn bộ ứng dụng này lên Pages như một website tĩnh. Triển khai dịch vụ hosting không thuộc phạm vi miniproject này.
+## Hosting công khai
+
+Project được triển khai bằng Sites trên Cloudflare Workers. Giao diện và API dùng chung origin HTTPS. Backend vẫn dùng cùng Express API và module thuật toán; lớp `server/worker/index.js` chuyển request của Workers sang HTTP server Node.js bằng `httpServerHandler`. Static files được phục vụ bằng binding `ASSETS`. Xem [tài liệu Cloudflare về Node.js HTTP](https://developers.cloudflare.com/workers/runtime-apis/nodejs/http/).
+
+```sh
+npm run build        # Đóng gói Worker và giao diện vào dist/
+npm run test:hosted  # Chạy cùng 12 bài E2E trên artifact hosting ở local
+npm run dev:hosted   # Preview runtime hosting tại http://127.0.0.1:3200
+```
+
+Build chỉ dùng `wrangler deploy --dry-run`, không tự triển khai hoặc yêu cầu token Cloudflare. Việc xuất bản được thực hiện bằng workflow Sites; identity được lưu tại `.openai/hosting.json`, credential triển khai không nằm trong mã nguồn. Runtime hosting tắt observability của Worker và ứng dụng không ghi văn bản/khóa vào log.
+
+Repository GitHub lưu mã nguồn. **GitHub Pages không chạy backend Node.js**; website công khai ở trên chạy cả API phía server. Khi thay đổi mã nguồn, cần build, kiểm thử và xuất bản phiên bản Sites mới; push lên GitHub đơn thuần không tự cập nhật website.

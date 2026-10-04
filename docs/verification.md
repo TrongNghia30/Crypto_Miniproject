@@ -34,4 +34,10 @@ Sau lần kiểm tra trực quan đầu tiên, cỡ chữ hướng dẫn và đ�
 
 ## Giới hạn kiểm chứng
 
-Đã kiểm tra Chromium; chưa kiểm tra Firefox hoặc Safari và chưa kiểm tra bằng screen reader thực tế. API không có cơ chế lưu dữ liệu và không triển khai hosting công khai. GitHub Pages không hỗ trợ backend Node.js. Việc xác minh thuật toán không đồng nghĩa với việc mật mã cổ điển đủ an toàn cho dữ liệu thực tế.
+Đã kiểm tra Chromium; chưa kiểm tra Firefox hoặc Safari và chưa kiểm tra bằng screen reader thực tế. API không có cơ chế lưu dữ liệu. Hosting công khai được bổ sung trong bước triển khai bên dưới. GitHub Pages không hỗ trợ backend Node.js. Việc xác minh thuật toán không đồng nghĩa với việc mật mã cổ điển đủ an toàn cho dữ liệu thực tế.
+
+## Bổ sung triển khai hosting
+
+Trong cùng ngày 04/10/2026, bổ sung lớp Cloudflare Workers dùng lại Express API. `npm test` sau tách module API vẫn đạt **24/24**. `npm run build` tạo thành công bundle server và static assets. `npm run test:hosted` chạy trên **artifact đã build** qua Wrangler local và đạt **12/12**, không skip, trong 34,9 giây ở cùng ba viewport. Các luồng kiểm thử bao gồm cả mã hóa/giải mã của đủ sáu thuật toán, clipboard và tạo khóa.
+
+Kiểm tra bổ sung trên runtime Workers local: Caesar `HELLO`/`3` → `KHOOR`, OTP sinh đúng 10.000 chữ khóa, trang chính trả HTTP 200 và `/.env` trả HTTP 404. Quan sát request được tắt trên cấu hình Worker. Hosting có quyền truy cập công khai, không yêu cầu người dùng đăng nhập. Trạng thái triển khai thực tế được xác nhận qua hệ thống Sites trước khi bàn giao URL.

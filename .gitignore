@@ -7,3 +7,6 @@ coverage/
 playwright-report/
 test-results/
 .DS_Store
+dist/
+.wrangler/
+.sites-runtime/

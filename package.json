@@ -11,13 +11,17 @@
     "start": "node --env-file-if-exists=.env server/index.js",
     "dev": "node --watch --env-file-if-exists=.env server/index.js",
     "test": "node --test test/*.test.js",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "build": "node scripts/build.mjs",
+    "dev:hosted": "wrangler dev --local --port 3200 --inspector-port 0",
+    "test:hosted": "node scripts/test-hosted.mjs"
   },
   "dependencies": {
     "express": "^5.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "wrangler": "^4.147.0"
   }
 }

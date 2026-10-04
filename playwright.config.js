@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
+const hosted = process.env.CRYPTO_TEST_HOSTED === "1";
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: false,
@@ -12,7 +14,9 @@ export default defineConfig({
     trace: "retain-on-failure",
   },
   webServer: {
-    command: "node server/index.js",
+    command: hosted
+      ? "node node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --port 3100 --inspector-port 0"
+      : "node server/index.js",
     url: "http://127.0.0.1:3100",
     env: { PORT: "3100" },
     reuseExistingServer: false,
