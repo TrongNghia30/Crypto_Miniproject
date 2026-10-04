@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#5146d6" />
+    <title>Crypto Lab · Mật mã cổ điển</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Crypto Lab — Trang chủ"
+        ><span class="brand-icon" aria-hidden="true">C<span>↗</span></span
+        ><span
+          >crypto<span class="brand-light">lab</span
+          ><small>CLASSICAL CIPHER STUDIO</small></span
+        ></a
+      >
+      <div class="top-meta">
+        <span class="status-dot"></span> Không gian học mật mã
+        <span class="version">v1.0</span>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" aria-label="Chọn thuật toán">
+        <p class="eyebrow">BỘ CÔNG CỤ</p>
+        <h2>Sáu cách giấu một thông điệp.</h2>
+        <nav id="cipher-nav" aria-label="Thuật toán mật mã"></nav>
+        <label class="mobile-picker" for="cipher-select"
+          >Thuật toán<select id="cipher-select"></select
+        ></label>
+        <div class="side-note">
+          <span class="note-symbol" aria-hidden="true">i</span
+          ><strong>Học từ những điều cơ bản</strong>
+          <p>
+            Khám phá cách chữ cái được thay thế, dịch chuyển và sắp xếp lại.
+          </p>
+          <span>6 thuật toán · 1 phòng thực hành</span>
+        </div>
+        <a
+          class="source-link"
+          href="https://github.com/TrongNghia30/Crypto_Miniproject"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Xem mã nguồn <span aria-hidden="true">↗</span></a
+        >
+      </aside>
+      <main>
+        <div class="breadcrumbs">
+          Phòng thực hành <span>/</span>
+          <span id="breadcrumb-name">Caesar</span>
+        </div>
+        <section class="intro" aria-labelledby="cipher-title">
+          <div>
+            <span class="algorithm-tag" id="cipher-tag"
+              >THAY THẾ · DỊCH CHUYỂN</span
+            >
+            <h1 id="cipher-title">Caesar Cipher</h1>
+            <p id="cipher-description"></p>
+          </div>
+          <div class="hero-symbol" aria-hidden="true">
+            <span>A</span><span>→</span><span>D</span>
+          </div>
+        </section>
+        <div class="workspace-heading">
+          <h2>Thử một thông điệp</h2>
+          <button type="button" id="example" class="text-button">
+            ↗ Nạp ví dụ
+          </button>
+        </div>
+        <form id="cipher-form" novalidate>
+          <div class="workspace">
+            <section class="card input-card" aria-labelledby="input-heading">
+              <div class="card-top">
+                <h3 id="input-heading">
+                  <span class="step">01</span> Dữ liệu đầu vào
+                </h3>
+                <span class="tiny-label">INPUT</span>
+              </div>
+              <fieldset class="mode-switch">
+                <legend class="sr-only">Chế độ xử lý</legend>
+                <label
+                  ><input
+                    type="radio"
+                    name="mode"
+                    value="encrypt"
+                    checked
+                  /><span>Mã hóa</span></label
+                ><label
+                  ><input type="radio" name="mode" value="decrypt" /><span
+                    >Giải mã</span
+                  ></label
+                >
+              </fieldset>
+              <div class="field-heading">
+                <label for="text" id="text-label">Văn bản gốc</label
+                ><span id="text-count">0 / 10.000</span>
+              </div>
+              <textarea
+                id="text"
+                rows="5"
+                placeholder="Nhập thông điệp của bạn ở đây…"
+                aria-describedby="text-error normalization-rule"
+                spellcheck="false"
+              ></textarea>
+              <p class="field-error" id="text-error" role="alert"></p>
+              <div class="preview">
+                <div class="preview-heading">
+                  <span>SAU CHUẨN HÓA</span
+                  ><span id="normalized-count">0 chữ cái</span>
+                </div>
+                <code id="text-preview">Chưa có văn bản</code>
+              </div>
+              <p class="field-hint" id="normalization-rule">
+                Bỏ dấu tiếng Việt, viết hoa, chỉ giữ A–Z.
+              </p>
+              <div class="field-heading key-heading">
+                <label for="key" id="key-label">Độ dịch chuyển</label
+                ><button id="generate" type="button" class="text-button" hidden>
+                  ↻ Tạo khóa
+                </button>
+              </div>
+              <input
+                id="key"
+                type="text"
+                placeholder="Ví dụ: 3"
+                autocomplete="off"
+                aria-describedby="key-hint key-error key-preview"
+                spellcheck="false"
+              />
+              <p class="field-error" id="key-error" role="alert"></p>
+              <p id="key-hint" class="field-hint"></p>
+              <p class="key-preview">
+                Khóa sử dụng: <code id="key-preview">—</code>
+              </p>
+              <button class="primary-button" id="submit" type="submit">
+                <span id="submit-label">Mã hóa thông điệp</span
+                ><span aria-hidden="true">→</span>
+              </button>
+            </section>
+            <section class="card output-card" aria-labelledby="output-heading">
+              <div class="card-top">
+                <h3 id="output-heading">
+                  <span class="step">02</span> Kết quả
+                </h3>
+                <span class="result-badge" id="result-badge">Đang chờ</span>
+              </div>
+              <div class="output-area">
+                <div class="empty-state" id="empty-state">
+                  <span class="empty-icon" aria-hidden="true">⌁</span>
+                  <h4>Thông điệp mới bắt đầu ở đây</h4>
+                  <p>
+                    Nhập văn bản và khóa, rồi chọn mã hóa hoặc giải mã để xem
+                    kết quả.
+                  </p>
+                </div>
+                <label class="sr-only" for="result">Kết quả xử lý</label
+                ><textarea
+                  id="result"
+                  rows="5"
+                  readonly
+                  hidden
+                  spellcheck="false"
+                ></textarea>
+              </div>
+              <div class="output-meta">
+                <span id="result-count">0 chữ cái</span><span>A–Z</span>
+              </div>
+              <div class="result-actions">
+                <button type="button" id="copy" disabled>Sao chép</button
+                ><button type="button" id="download" disabled>Tải TXT ↓</button
+                ><button type="button" id="reuse" disabled>
+                  Dùng làm đầu vào ↗</button
+                ><button type="button" id="clear">Xóa</button>
+              </div>
+              <p id="result-note" class="result-note">
+                Kết quả được tính bằng thuật toán trên máy chủ. Văn bản và khóa
+                không được lưu lại.
+              </p>
+              <div
+                class="status-message"
+                id="status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              ></div>
+            </section>
+          </div>
+        </form>
+        <section class="card explanation" aria-labelledby="explanation-heading">
+          <div class="explanation-title">
+            <div>
+              <p class="eyebrow">BÊN TRONG THUẬT TOÁN</p>
+              <h2 id="explanation-heading">Cách hoạt động</h2>
+            </div>
+            <span class="tiny-label">A = 0 · Z = 25</span>
+          </div>
+          <p id="explanation-rule"></p>
+          <div
+            id="visualization"
+            class="visualization"
+            aria-label="Minh họa thuật toán"
+          ></div>
+          <p class="field-hint" id="visualization-note">
+            Minh họa xuất hiện sau khi bạn xử lý một thông điệp.
+          </p>
+        </section>
+        <footer>
+          <span>Được tạo để học, khám phá và kiểm chứng.</span
+          ><span>Mật mã cổ điển không dùng để bảo vệ dữ liệu thực tế.</span>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

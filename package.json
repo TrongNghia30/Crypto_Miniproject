@@ -1,0 +1,23 @@
+{
+  "name": "crypto-miniproject",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Phòng thực hành sáu thuật toán mật mã cổ điển",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "dev": "node --watch --env-file-if-exists=.env server/index.js",
+    "test": "node --test test/*.test.js",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "supertest": "^7.1.4"
+  }
+}
